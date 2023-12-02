@@ -2,7 +2,7 @@ defmodule Day1Test do
   use ExUnit.Case
   doctest Advent2023.Day1
 
-  test "example input" do
+  test "part 1: example input" do
     lines =
       String.split(
         "1abc2
@@ -12,11 +12,32 @@ defmodule Day1Test do
         "\n"
       )
 
-    assert Advent2023.Day1.solve(lines) == 142
+    assert Advent2023.Day1.solve(lines, :one) == 142
   end
 
-  test "day1.txt" do
+  test "part 1: puzzle input" do
     lines = File.stream!("./data/day1.txt")
-    assert Advent2023.Day1.solve(lines) == 55029
+    assert Advent2023.Day1.solve(lines, :one) == 55029
+  end
+
+  test "part 2: example input" do
+    lines =
+      String.split(
+        "two1nine
+        eightwothree
+        abcone2threexyz
+        xtwone3four
+        4nineeightseven2
+        zoneight234
+        7pqrstsixteen",
+        "\n"
+      )
+
+    assert Advent2023.Day1.solve(lines, :two) == 281
+  end
+
+  test "part 2: puzzle input" do
+    lines = File.stream!("./data/day1.txt")
+    assert Advent2023.Day1.solve(lines, :two) == 55686
   end
 end
