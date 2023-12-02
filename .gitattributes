@@ -1,0 +1,2 @@
+# keep data files out of PRs
+data/*.txt binary
