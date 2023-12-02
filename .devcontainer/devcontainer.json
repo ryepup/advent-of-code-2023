@@ -4,21 +4,16 @@
       "dockerfile": "Dockerfile",
       "context": ".."
     },
-
-    "settings": {
-      "terminal.integrated.defaultProfile.linux": "bash"
-    },
-
-    "appPort": [],
-
-    "postCreateCommand": "",
-
     "remoteUser": "vscode",
-
-    "extensions": [
-      "editorconfig.editorconfig",
-      "github.vscode-pull-request-github",
-      "jakebecker.elixir-ls",
-      "redhat.vscode-yaml"
-    ]
+    "customizations": {
+      "vscode": {
+        "extensions": [
+          "editorconfig.editorconfig",
+          "jakebecker.elixir-ls"
+        ],
+        "settings": {
+          "terminal.integrated.defaultProfile.linux": "bash"
+        }
+      }
+    }
   }
