@@ -19,6 +19,12 @@ Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_do
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at <https://hexdocs.pm/tmp>.
 
+## Learning notes
+
+- pipelines `|>` vs comprehensions `for` is an interesting choice
+- feels like I have an overly complicated solution, reversing the list feels to get the final one feels bad
+- these docs are fantastic
+- integration with vscode and iex could be better, copy/pasting snippets into a terminal is annoying
 
 
 ## References
