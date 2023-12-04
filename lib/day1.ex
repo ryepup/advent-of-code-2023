@@ -11,69 +11,45 @@ defmodule Advent2023.Day1 do
     |> Enum.sum()
   end
 
+  defp next_number(<<n>> <> _rest) when n in ?0..?9 do
+    n - 48
+  end
+
+  defp next_number(<<_>> <> rest) do
+    next_number(rest)
+  end
+
   defp value(line) do
-    lst =
-      for c <- String.graphemes(line),
-          v = Integer.parse(c),
-          v != :error do
-        c
-      end
-
-    [first | _] = lst
-    # this is dumb
-    [last | _] = Enum.reverse(lst)
-
-    # todo: Integer.undigits([first, last])
-    case Integer.parse(first <> last) do
-      {x, ""} -> x
-    end
-  end
-
-  # one:1, two:2, three:3, ...
-  @words "one two three four five six seven eight nine"
-         |> String.split()
-         |> Enum.with_index(&{&1, &2 + 1})
-         |> Enum.into([])
-  # eno:1, owt:2, eerht:3, ...
-  @reversed_words @words |> Enum.map(&put_elem(&1, 0, String.reverse(elem(&1, 0))))
-
-  defp leading_word_to_digit(line, dir) do
-    case dir do
-      :left_to_right -> @words
-      :right_to_left -> @reversed_words
-    end
-    |> Enum.filter(&String.starts_with?(line, elem(&1, 0)))
-    |> Enum.map(&elem(&1, 1))
-  end
-
-  defp leading_digit(line) do
-    String.at(line, 0) |> Integer.parse()
-  end
-
-  defp find_leading(line, dir) do
-    # why couldn't I get this to work in a flat cond?
-    case leading_digit(line) do
-      {d, ""} ->
-        d
-
-      # was getting match errors from :error if I tried to ignore it in the cond...
-      :error ->
-        case leading_word_to_digit(line, dir) do
-          [d] ->
-            d
-
-          _ ->
-            cond do
-              String.length(line) > 1 ->
-                find_leading(String.slice(line, 1..-1), dir)
-            end
-        end
-    end
+    first = line |> next_number
+    last = line |> String.reverse() |> next_number
+    Integer.undigits([first, last])
   end
 
   defp find_number(line) do
-    first = find_leading(line, :left_to_right)
-    last = String.reverse(line) |> find_leading(:right_to_left)
+    first = line |> next_word_number(:left_to_right)
+    last = line |> String.reverse() |> next_word_number(:right_to_left)
     Integer.undigits([first, last])
+  end
+
+  defp next_word_number(<<n>> <> _rest, _dir) when n in ?0..?9 do
+    n - 48
+  end
+
+  @words "one two three four five six seven eight nine"
+         |> String.split()
+         |> Enum.with_index()
+
+  for {word, idx} <- @words do
+    defp next_word_number(<<unquote(word)>> <> _rest, :left_to_right) do
+      unquote(idx + 1)
+    end
+
+    defp next_word_number(<<unquote(word |> String.reverse())>> <> _rest, :right_to_left) do
+      unquote(idx + 1)
+    end
+  end
+
+  defp next_word_number(<<_>> <> rest, dir) do
+    next_word_number(rest, dir)
   end
 end

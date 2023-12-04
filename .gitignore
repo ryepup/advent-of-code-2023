@@ -27,3 +27,5 @@ advent2023-*.tar
 
 # language server files
 .elixir_ls
+# benchmark data
+*.benchee
