@@ -9,6 +9,14 @@ defmodule Advent2023.Day2 do
     |> Enum.sum()
   end
 
+  def solve(lines, :two) do
+    lines
+    |> Enum.map(&parseGame/1)
+    |> Enum.map(&fewest/1)
+    |> Enum.map(&power/1)
+    |> Enum.sum()
+  end
+
   defmodule Draw do
     @enforce_keys [:color, :count]
     defstruct [:color, :count]
@@ -57,5 +65,21 @@ defmodule Advent2023.Day2 do
       x when x >= count -> true
       x when x < count -> false
     end
+  end
+
+  defp fewest(%Game{turns: turns}) do
+    turns |> Enum.flat_map(& &1.draws) |> Enum.reduce(%{}, &fewest/2)
+  end
+
+  defp fewest(%Draw{color: color, count: count}, acc) do
+    case acc[color] do
+      nil -> Map.put(acc, color, count)
+      x when x > count -> acc
+      x when x <= count -> Map.put(acc, color, count)
+    end
+  end
+
+  defp power(acc) do
+    acc |> Map.values() |> Enum.reduce(1, &(&1 * &2))
   end
 end
